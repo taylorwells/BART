@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+	<title>oBART: Example 6</title>
+	
+	<meta charset="utf-8" />
+        
+	<!-- these files are required for the BART to work    -->
+	<script type="text/javascript" src="src/jquery-3.0.0.min.js"></script>	<!-- basic javascript library for dom manipulation -->
+	<script type="text/javascript" src="src/jcanvas.min.js"></script>      	<!-- the canvas plugin -->
+	<script type="text/javascript" src="src/jquery.bart.js"></script>       <!-- the main BART plugin -->
+	<link rel="stylesheet" type="text/css" href="src/jquery.bart.css" />    <!-- additional styles for to make the BART look fancy -->
+        
+	<!-- additional scripts to run the demo on this page -->
+	<script type="text/javascript">
+	//<![CDATA[
+	
+		// initialize the BART after the page has loaded
+		$(document).ready(function() {
+		
+			// user-defined function invoked when starting the BART
+			var myload = function() {  alert('Please read the instructions before proceeding!\nGood Luck!'); }
+			
+			// user-defined function invoked after finishing the BART
+			var myend = function() {
+                var money = 0;
+                var safe = 0;
+                var avgpumps = 0;
+                var totaltime = 0;
+                var avgtime = 0;
+				for(var i = 1; i <= 10; i++) { // run over all balloons
+					if(Number($('#BARTexploded' + i).attr('value')) == 0) {
+                        safe++;
+                        money = money + Number($('#BARTpumps' + i).attr('value')) // get information saved to the hidden form element
+                        totaltime = totaltime + Number($('#BARTtime' + i).attr('value')) // get information saved to the hidden form element
+					}
+                }
+                avgpumps = money / 10;
+                money = money / 20;
+                avgtime = totaltime / (1000*safe);
+				alert('You achieved $' + money.toFixed(2) + ' earnings.\nYou kept ' + safe + ' balloons safe.\nYour Avg. # Pumps was ' + avgpumps + '.\nYou took ' + avgtime.toFixed(2) + ' seconds per inflation.' );
+			}
+		
+			// create a BART with 10 balloons
+			$("#bart").bart( { b: 10,                       // create 5 balloons
+                       o: { color: 'blue'        // color of balloons
+					      },
+					   s: { 
+                        onload: myload,         // user-defined function invoked after starting the BART
+						onend:  myend           // user-defined function invoked after finishing the BART
+					      }
+					 } );
+		});
+	
+	//]]>
+	</script>
+    
+	</head>
+	
+	<body>
+
+	<h1 style="text-align:center;">Balloon Inflation Game</h1>
+                        
+
+
+
+	<h2>Instructions</h2>
+	
+	<ol>
+		<li>The goal of this game is to maximize total earnings.</li>
+        <li>For each balloon, you earn $0.05 every time you pump up the balloon ... unless that ballon pops and you lose all money for that ballon.</li>
+        <li>Press the "$$ Cash in $$" button to save your current earnings and move to the next balloon.</li>
+        <li>Balloons are not created equal and may pop unexpectedly.</li>
+        <li>You have 10 balloons to inflate in this game.</li>
+        <li>Looking at the code is not the point of this exercise. Please refrain from viewing/modifying code until after you are done playing the game</li>
+        <li>You will need your final earnings, number of balloons saved, the average pumps per inflation, and average time per inflation provided to you at the end of the game to submit this assignment. Please keep a record of them.</li>
+    </ol>
+    
+		<br /><br/>
+	<!-- load BART here -->
+	<div id="bart" style="margin: auto; text-align: center;"></div>
+       
+	</body>
+
+</html>
